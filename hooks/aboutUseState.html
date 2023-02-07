@@ -8,15 +8,32 @@
 // #1 useState 的方法在哪裡？
 
 // #2 useState 僅能在 Component 內運作
-
-
+const  {useState} = React;
 // #3 state 是 ReadOnly
 // #3-1 為了讓 React 知道資料已更新，所以會使用另一個方法進行觸發
 const App = () => {
   // #3-2 這影響了許多會操作原始值的方法
+  // const [text, setText] = useState('這是一段文字');
+  const [num , setNum] = useState(1);
+  const [arr, setArr] = useState([1,2,3]);
+  function removeArrData(){
+    setArr(arr.filter((item)=>item!==arr.length
+    ));
+  }
+  function addArrData(){
+    setArr([...arr, arr.length+1]);
+  }
 
   return (<div>
-    
+    <label htmlFor="btn1">結果：{num}</label>
+    <button id="btn1" type="button" onClick={()=>{setNum(num+1)}}>加1</button>
+    <ul>
+     {arr.map((i)=>{
+      return  <li key={i}>{i}</li>
+     })}
+    </ul>
+    <button type="button" onClick={()=>removeArrData()}>移除陣列資料</button>
+    <button type="button" onClick={()=>addArrData()}>新增陣列資料</button>
   </div>)
 }
 
