@@ -7,21 +7,41 @@
 <script type="text/babel">
 const { useState } = React
 const App = () => {
-
+  // name
+  const [inputName, setInputName] = useState('QQQ');
+  // location
+  const locations = ['台北', '台中', '高雄']
+  const [selectLocation, setSelectLocation] = useState('')
+  // location multiple
+  const [selectLocations, setSelectLocations] = useState([])
+  const selectLocationsHandler = e=>{
+    // console.log(e.target.selectedOptions[0].value);
+    console.log([...e.target.selectedOptions].map(item=>item.value));
+    setSelectLocations([...e.target.selectedOptions].map(item=>item.value))
+  }
   return (<div>
   {/* #1 input */}
-  <label htmlFor="username">使用者名稱 </label>
-  <input id="username" type="text"/>
-
+  <label htmlFor="username">使用者名稱{inputName}</label>
+  <input id="username" type="text" value={inputName} onChange={e=>setInputName(e.target.value)}/>
+  <br/><br/>
   {/* #2 select 選擇、預設值 */}
-  <select name="" id="" >
+  {selectLocation}
+  <select name="" id="" value={selectLocation} onChange={e=>setSelectLocation(e.target.value)}>
     <option value="" disabled>-- 請選擇地區 --</option>
+    {locations.map((location) => {
+      return ( <option value={location} key={location}>{location}</option>)
+    })}
   </select>
-
+  <br/><br/>
   {/* #3 multiSelect */}
-  <select name="" id="">
-
+  {selectLocations}
+  <select name="" id="" multiple={true} value={selectLocations} onChange={selectLocationsHandler}>
+    <option value="" disabled>-- 請選擇地區 --</option>
+    {locations.map((location) => {
+      return ( <option value={location} key={location}>{location}</option>)
+    })}
   </select>
+  <br/><br/>
   </div>)
 }
 
