@@ -7,22 +7,61 @@
 <script type="text/babel">
   const { useState } = React
   const App = () => {
+    // 針對單一欄位的值做紀錄，但不利於多欄位的form
+    // const [userName, setUserName] = useState()
+    // const handleUserName = (e)=> setUserName(e.target.value)
+
+    // 針對整個form data
+    const [formData, setFormData] = useState({
+      username: '',
+      password: '',
+      isCheck: false
+    })
+
+    const handleFormChange = (e) =>{
+      // console.log(e.target.value);
+      // console.log(e.target.name);
+      const value = e.target.type==='checkbox'?e.target.checked:e.target.value;
+      const name = e.target.name;
+      setFormData({
+        ...formData,
+        [name]: value // 變數的方式帶入屬性
+      })
+    }
+
+    const handleSubmit = (e) => {
+      e.preventDefault(); // 取消Html的預設行為
+      console.log(formData);
+      
+    }
   
     return (<div>
-      <form >
+      <form onSubmit={handleSubmit}>
+        {/*<div className="mb-3">
+          <label htmlFor="username" className="form-label">使用者名稱{userName}</label
+          ><input id="username" type="text" className="form-control" name="username"
+          onChange={handleUserName}
+          />
+        </div>*/}
         <div className="mb-3">
           <label htmlFor="username" className="form-label">使用者名稱</label
           ><input id="username" type="text" className="form-control" name="username"
+          onChange={handleFormChange}
+          value={formData.username}
           />
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">密碼</label
           ><input id="password" type="password" className="form-control" name="password"
+          onChange={handleFormChange}
+          value={formData.password}
           />
         </div>
         <div className="mb-3">
           <label htmlFor="isCheck">確認狀態</label>
           <input id="isCheck" type="checkbox" name="isCheck"
+          onChange={handleFormChange}
+          value={formData.isCheck}
           />
         </div>
         <button type="submit" className="btn btn-primary">送出</button>
